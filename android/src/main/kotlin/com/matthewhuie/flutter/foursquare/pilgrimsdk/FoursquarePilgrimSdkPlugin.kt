@@ -7,28 +7,32 @@ import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.PluginRegistry.Registrar
 import com.foursquare.pilgrim.*
+import io.flutter.plugin.common.EventChannel
 
-class FoursquarePilgrimSdkPlugin: MethodCallHandler {
+class FoursquarePilgrimSdkPlugin: MethodCallHandler, EventChannel.StreamHandler {
 
   companion object {
     private lateinit var registrar: Registrar
+    private var eventSink: EventChannel.EventSink? = null
 
     @JvmStatic
     fun registerWith(registrar: Registrar) {
-      val channel = MethodChannel(registrar.messenger(), "foursquare_pilgrimsdk")
-      channel.setMethodCallHandler(FoursquarePilgrimSdkPlugin())
+      val mc = MethodChannel(registrar.messenger(), "foursquare_pilgrimsdk")
+      val ec = EventChannel(registrar.messenger(), "foursquare_pilgrimsdk_visits")
+      mc.setMethodCallHandler(FoursquarePilgrimSdkPlugin())
+      ec.setStreamHandler(FoursquarePilgrimSdkPlugin())
       this.registrar = registrar
 
       PilgrimSdk.with(
-        PilgrimSdk.Builder(registrar.context())
-          .consumer("", "")
-          .logLevel(LogLevel.DEBUG)
-          .notificationHandler(object : PilgrimNotificationHandler() {
-            override fun handleVisit(c: Context, psvn: PilgrimSdkVisitNotification) {
-              val venue = psvn.visit.toString()
-              android.util.Log.d("foursquare-pilgrimsdk", venue)
-            }
-          })
+              PilgrimSdk.Builder(registrar.context())
+                      .consumer("",
+                              "")
+                      .logLevel(LogLevel.DEBUG)
+                      .notificationHandler(object : PilgrimNotificationHandler() {
+                        override fun handleVisit(c: Context, psvn: PilgrimSdkVisitNotification) {
+                          // Send visit to EventSink
+                        }
+                      })
       )
     }
   }
@@ -43,7 +47,23 @@ class FoursquarePilgrimSdkPlugin: MethodCallHandler {
           PilgrimSdk.stop(registrar.context())
         }
         "fireTestVisit" -> {
-          PilgrimNotificationTester.fireTestVisit(registrar.context(), Confidence.HIGH, LocationType.VENUE, false)
+          PilgrimNotificationTester.fireTestVisit(
+                  registrar.context(),
+                  Confidence.valueOf(call.argument("confidence")),
+                  LocationType.valueOf(call.argument("type")),
+                  call.argument("isExit")
+          )
+        }
+        "sendConnectedTestVisit" -> {
+          PilgrimNotificationTester.sendConnectedTestVisit(
+                  call.argument("venueId"),
+                  Confidence.valueOf(call.argument("confidence")),
+                  LocationType.valueOf(call.argument("type")),
+                  call.argument("isExit")
+          )
+        }
+        "getDebugInfo" -> {
+          result.success(PilgrimSdk.getDebugInfo())
         }
         "getInstallId" -> {
           result.success(PilgrimSdk.getInstallId())
@@ -57,4 +77,10 @@ class FoursquarePilgrimSdkPlugin: MethodCallHandler {
       }
     }
   }
+
+  override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
+    eventSink = events
+  }
+
+  override fun onCancel(arguments: Any?) {}
 }
