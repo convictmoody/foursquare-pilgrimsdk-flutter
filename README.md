@@ -2,7 +2,13 @@
 This is a Flutter plugin for the Foursquare Pilgrim SDK.
 
 ## Getting Started
-Import this git as a dependency in your Flutter project.  
+Import this git as a dependency in `pubspec.yaml` of your Flutter project.
+
+```yaml
+dependencies:
+  foursquare_pilgrimsdk:
+    git: git://github.com/matthewhuie/foursquare-pilgrimsdk-flutter.git
+```
 
 You'll need your JFrog Artifactory and Foursquare API credentials for both Android and iOS libraries.
 
