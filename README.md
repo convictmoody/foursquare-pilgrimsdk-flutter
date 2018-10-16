@@ -17,16 +17,29 @@ import 'package:foursquare_pilgrimsdk/foursquare_pilgrimsdk.dart';
 You'll need your JFrog Artifactory and Foursquare API credentials for both Android and iOS libraries.
 
 ## Functions
-| Function | Description |
-| --- | --- |
-| void *start*() | Starts the SDK and begins to monitor visits |
-| void *stop*() | Stops the SDK |
-| Future<bool> get *isEnabled* | Returns true if the SDK is enabled, false otherwise |
-| Future<String> get *installId* | Returns the user's unique install ID |
-| Future<String> get *debugInfo* | Returns debug information from the SDK |
-| void *fireTestVisit*(String confidence, String type, bool isExit) | Fires a test visit to the SDK |
-| void *sendConnectedTestVisit*(String venueId, String confidence, String type, bool isExit) | Sends a test visit to the SDK via Foursquare servers |
-| Stream<dynamic> get *visitStream* | Returns a Stream of visits from the SDK |
+**start**() → void  
+Starts the SDK and begins to monitor visits.
+
+**stop**() → void  
+Stops the SDK.
+
+**isEnabled** → Future<bool>  
+Returns true if the SDK is enabled, false otherwise.
+
+**installId** → Future<String>  
+Returns the user's unique install ID.
+
+**visitStream** → Stream<dynamic>  
+Returns a Stream, containing visits from the SDK.
+
+**debugInfo** → Future<String>  
+Returns debug information from the SDK.
+
+**fireTestVisit**(String confidence, String type, bool isExit) → void  
+Fires a test visit to the SDK.
+
+**sendConnectedTestVisit**(String venueId, String confidence, String type, bool isExit) → void  
+Sends a test visit to the SDK via Foursquare servers.
 
 ## TODO
 - [x] Base Flutter project
