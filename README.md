@@ -23,16 +23,16 @@ Starts the SDK and begins to monitor visits.
 **stop**() → void  
 Stops the SDK.
 
-**isEnabled** → Future<bool>  
+**isEnabled** → Future&lt;bool&gt;  
 Returns true if the SDK is enabled, false otherwise.
 
-**installId** → Future<String>  
+**installId** → Future&lt;String&gt;  
 Returns the user's unique install ID.
 
-**visitStream** → Stream<dynamic>  
+**visitStream** → Stream&lt;dynamic&gt;  
 Returns a Stream, containing visits from the SDK.
 
-**debugInfo** → Future<String>  
+**debugInfo** → Future&lt;String&gt;  
 Returns debug information from the SDK.
 
 **fireTestVisit**(String confidence, String type, bool isExit) → void  
