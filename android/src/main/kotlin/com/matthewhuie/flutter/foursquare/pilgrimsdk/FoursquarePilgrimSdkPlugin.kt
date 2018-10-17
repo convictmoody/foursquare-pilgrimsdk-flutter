@@ -46,6 +46,9 @@ class FoursquarePilgrimSdkPlugin: MethodCallHandler, EventChannel.StreamHandler 
         "stop" -> {
           PilgrimSdk.stop(registrar.context())
         }
+        "clearAllData" -> {
+          PilgrimSdk.clearAllData(registrar.context())
+        }
         "fireTestVisit" -> {
           PilgrimNotificationTester.fireTestVisit(
                   registrar.context(),
@@ -82,5 +85,7 @@ class FoursquarePilgrimSdkPlugin: MethodCallHandler, EventChannel.StreamHandler 
     eventSink = events
   }
 
-  override fun onCancel(arguments: Any?) {}
+  override fun onCancel(arguments: Any?) {
+    eventSink = null
+  }
 }

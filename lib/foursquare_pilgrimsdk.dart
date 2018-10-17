@@ -16,6 +16,10 @@ class FoursquarePilgrimSdk {
     _mc.invokeMethod("stop");
   }
 
+  static clearAllData() {
+    _mc.invokeMethod("clearAllData");
+  }
+
   static fireTestVisit(String confidence, String type, bool isExit) {
     _mc.invokeMethod("fireTestVisit", <String, dynamic> {
       'confidence': confidence.toUpperCase(),
