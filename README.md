@@ -43,8 +43,10 @@ Sends a test visit to the SDK via Foursquare servers.
 
 ## TODO
 - [x] Base Flutter project
-- [x] Android implementation
-- [ ] iOS implementation
+- [x] Basic Android implementation
+- [x] Basic iOS implementation
+- [ ] Deeper Android/iOS implementation
+- [ ] More documentation
 - [ ] Better credentials management
 - [ ] Better structure for visit payload from native to Flutter
 - [ ] More support for additional methods in Pilgrim 2.0
