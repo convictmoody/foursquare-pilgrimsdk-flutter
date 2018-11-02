@@ -1,6 +1,7 @@
 import Flutter
 import UIKit
-    
+import Pilgrim
+
 public class SwiftFoursquarePilgrimSdkPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
   private var eventSink: FlutterEventSink?
 
@@ -10,26 +11,32 @@ public class SwiftFoursquarePilgrimSdkPlugin: NSObject, FlutterPlugin, FlutterSt
     let instance = SwiftFoursquarePilgrimSdkPlugin()
     registrar.addMethodCallDelegate(instance, channel: fmc)
     fec.setStreamHandler(instance)
+    
+    PilgrimManager.shared().configure(
+        withConsumerKey: "",
+        secret: "",
+        delegate: instance,
+        completion: nil)
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     switch(call.method) {
     case "start":
-      result(FlutterMethodNotImplemented)
+      PilgrimManager.shared().start()
     case "stop":
-      result(FlutterMethodNotImplemented)
+      PilgrimManager.shared().stop()
     case "clearAllData":
-      result(FlutterMethodNotImplemented)
+      PilgrimManager.shared().clearAllData()
     case "fireTestVisit":
       result(FlutterMethodNotImplemented)
     case "sendConnectedTestVisit":
       result(FlutterMethodNotImplemented)
     case "getDebugInfo":
-      result(FlutterMethodNotImplemented)
+      result(PilgrimManager.shared().debugLogs())
     case "getInstallId":
-      result(FlutterMethodNotImplemented)
+      result(PilgrimManager.shared().installId)
     case "isEnabled":
-      result(FlutterMethodNotImplemented)
+      result(PilgrimManager.shared().canEnable())
     default:
       result(FlutterMethodNotImplemented)
     }
@@ -46,3 +53,8 @@ public class SwiftFoursquarePilgrimSdkPlugin: NSObject, FlutterPlugin, FlutterSt
   }
 }
 
+extension SwiftFoursquarePilgrimSdkPlugin: PilgrimManagerDelegate {
+  public func pilgrimManager(_ pilgrimManager: PilgrimManager, handle visit: Visit) {
+    // Send visit to EventSink
+  }
+}
