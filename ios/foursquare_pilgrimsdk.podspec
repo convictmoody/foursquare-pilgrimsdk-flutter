@@ -15,7 +15,7 @@ Pilgrim SDK for Flutter.
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
-  s.dependency 'pilgrim-sdk'
+  s.dependency 'Pilgrim'
   
   s.ios.deployment_target = '8.0'
 end
